@@ -32,7 +32,7 @@ exports.Current = (req, res) => {
 // Delete Developer
 exports.DeleteDeveloper = (req, res) => {
   const errors = {};
-  Developer.findOneAndRemove({ user: req.user.id })
+  Developer.findOneAndDelete({ user: req.user.id })
     .then(res.json({ message: "Deleted" }))
     .catch(err => console.log(err));
 };
