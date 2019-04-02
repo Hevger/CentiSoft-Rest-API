@@ -5,6 +5,42 @@ const Customer = require("../models/Customer");
 // Load Validators
 const createCustomerValidation = require("../validation/createCustomerValidation");
 
+// Create a new Customer
+exports.CreateCustomer = (req, res) => {
+  const { errors, isValid } = createCustomerValidation(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(404).json(errors);
+  }
+
+  Customer.findOne({ email: req.body.email }).then(customer => {
+    if (customer) {
+      errors.email = "Email already exists";
+      return res.status(400).json(errors);
+    } else {
+      // Create customer object
+      const newCustomer = new Customer({
+        name: req.body.name,
+        address: req.body.address,
+        address2: req.body.address2,
+        zip: req.body.zip,
+        city: req.body.city,
+        country: req.body.country,
+        email: req.body.email,
+        phone: req.body.phone
+      });
+      newCustomer
+        .save()
+        .then(customer => res.json(customer))
+        .catch(err => console.log(err));
+    }
+  });
+};
+
+// Update customer
+exports.UpdateCustomer = (req, res) => {};
+
 // Get One Customer
 exports.GetCustomer = (req, res) => {
   Customer.findById(req.params.id)
@@ -47,37 +83,4 @@ exports.GetAll = (req, res) => {
       res.json(customers);
     })
     .catch(err => console.log(err));
-};
-
-// Create a new Customer
-exports.CreateCustomer = (req, res) => {
-  const { errors, isValid } = createCustomerValidation(req.body);
-
-  // Check Validation
-  if (!isValid) {
-    return res.status(404).json(errors);
-  }
-
-  Customer.findOne({ email: req.body.email }).then(customer => {
-    if (customer) {
-      errors.email = "Email already exists";
-      return res.status(400).json(errors);
-    } else {
-      // Create customer object
-      const newCustomer = new Customer({
-        name: req.body.name,
-        address: req.body.address,
-        address2: req.body.address2,
-        zip: req.body.zip,
-        city: req.body.city,
-        country: req.body.country,
-        email: req.body.email,
-        phone: req.body.phone
-      });
-      newCustomer
-        .save()
-        .then(customer => res.json(customer))
-        .catch(err => console.log(err));
-    }
-  });
 };

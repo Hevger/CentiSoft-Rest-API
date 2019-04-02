@@ -65,7 +65,7 @@ exports.Login = (req, res) => {
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 60 * 60 },
+          { expiresIn: 60 * 60 * 60 * 60 },
           (err, token) => {
             res.json({ success: true, token: "Bearer " + token });
           }
