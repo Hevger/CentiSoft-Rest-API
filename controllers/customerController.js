@@ -39,7 +39,27 @@ exports.CreateCustomer = (req, res) => {
 };
 
 // Update customer
-exports.UpdateCustomer = (req, res) => {};
+exports.UpdateCustomer = (req, res) => {
+  const updatedCus = new Customer({ ...req.body });
+  const { errors, isValid } = createCustomerValidation(updatedCus);
+  if (!isValid) {
+    return res.status(404).json(errors);
+  }
+  Customer.findById(req.params.id)
+    .then(customer => {
+      customer.name = updatedCus.name;
+      customer.address = updatedCus.address;
+      customer.address2 = updatedCus.address2;
+      customer.zip = updatedCus.zip;
+      customer.city = updatedCus.city;
+      customer.country = updatedCus.country;
+      customer.email = updatedCus.email;
+      customer.phone = updatedCus.phone;
+      return customer.save();
+    })
+    .then(result => res.json({ result }))
+    .catch(err => console.log(err));
+};
 
 // Get One Customer
 exports.GetCustomer = (req, res) => {
