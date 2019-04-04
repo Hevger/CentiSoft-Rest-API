@@ -17,6 +17,7 @@ class Navbar extends Component {
       <ul>
         <li className="nav-link">
           <span>logged as {user.name} - </span>
+          {/* eslint-disable-next-line */}
           <a href="#" onClick={this.onLogoutClick.bind(this)}>
             Log out
           </a>
