@@ -14,6 +14,7 @@ exports.GetAll = (req, res) => {
     .then(developers => {
       if (!developers) {
         errors.noDevelopers = "No developers found";
+        return res.status(404).json(errors);
       }
       res.json(developers);
     })
