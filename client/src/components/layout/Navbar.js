@@ -1,35 +1,71 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
 
 class Navbar extends Component {
+  onLogoutClick(e) {
+    e.preventDefault();
+    this.props.logoutUser();
+  }
+
   render() {
+    const { isAuthenticated, user } = this.props.auth;
+
+    const authorizedLinks = (
+      <ul>
+        <li className="nav-link">
+          <span>logged as {user.name} - </span>
+          <a href="#" onClick={this.onLogoutClick.bind(this)}>
+            Log out
+          </a>
+        </li>
+      </ul>
+    );
+
+    const guestLinks = (
+      <ul>
+        <li>
+          <Link className="nav-link" to="/register">
+            Register
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link" to="/login">
+            Log In
+          </Link>
+        </li>
+      </ul>
+    );
+
     return (
       <header>
         <div className="container">
           <div id="branding">
             <h1>
-              <span className="highlight">CentiSoft</span>
+              <Link className="navbar-brand" to="/">
+                <span className="highlight">CentiSoft</span>
+              </Link>
             </h1>
           </div>
-          <nav>
-            <ul>
-              <li className="current">
-                <a href="index.html">Home</a>
-              </li>
-              <li>
-                <a href="customers.html">Customers</a>
-              </li>
-              <li>
-                <a href="clients.html">Clients</a>
-              </li>
-              <li>
-                <a href="projects.html">Projects</a>
-              </li>
-            </ul>
-          </nav>
+          <nav>{isAuthenticated ? authorizedLinks : guestLinks}</nav>
         </div>
       </header>
     );
   }
 }
 
-export default Navbar;
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(Navbar);
