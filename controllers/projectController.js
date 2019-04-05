@@ -6,6 +6,7 @@ const Project = require("../models/Project");
 
 // Load Validators
 const validateProjectInput = require("../validation/project");
+const validateTaskInput = require("../validation/tasks");
 
 // Get All
 exports.GetAll = (req, res) => {
@@ -72,4 +73,40 @@ exports.DeleteProject = (req, res) => {
     .catch(err =>
       res.status(404).json({ noProjectFound: "No project found with that ID" })
     );
+};
+
+// Create task
+exports.CreateTask = (req, res) => {
+  const { errors, isValid } = validateTaskInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(404).json(errors);
+  }
+  // Check if project id is valid
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    errors.invalidProjectId = "Invalid project id";
+    return res.status(404).json(errors);
+  }
+
+  Project.findById(req.params.id).then(project => {
+    if (!project) {
+      errors.noProjectFound = "No project found";
+      return res.status(404).json(errors);
+    }
+    // Create new task object
+    const newTask = {
+      name: req.body.name,
+      description: req.body.description,
+      created: Date.now(),
+      duration: req.body.duration,
+      developer: req.body.developer
+    };
+
+    project.tasks.push(newTask);
+    project
+      .save()
+      .then(project => res.json(project))
+      .catch(err => console.log(err));
+  });
 };

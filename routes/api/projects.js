@@ -38,4 +38,11 @@ router.delete(
   projectController.DeleteProject
 );
 
+// Create Task
+router.post(
+  "/:id/tasks",
+  passport.authenticate("jwt", { session: false }),
+  projectController.CreateTask
+);
+
 module.exports = router;
