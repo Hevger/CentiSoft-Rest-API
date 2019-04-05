@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCustomers } from "../../actions/customersActions";
@@ -15,11 +16,13 @@ class Customers extends Component {
       content = <h4>Loading...</h4>;
     } else {
       content = (
-        <ul>
+        <ul class="list-group">
           {customers.map(customer => {
             return (
-              <li key={customer._id}>
-                <h4>{customer.name}</h4>
+              <li key={customer._id} className="list-group-item">
+                <Link to={"/customers/" + customer._id}>
+                  <h4>{customer.name}</h4>
+                </Link>
               </li>
             );
           })}
