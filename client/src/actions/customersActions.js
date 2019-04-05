@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_CUSTOMERS, LOADING_CUSTOMERS, GET_ERRORS } from "./types";
+import { GET_CUSTOMERS, LOADING_CUSTOMERS } from "./types";
 
 export const getCustomers = () => dispatch => {
   dispatch(setLoadingCustomers());

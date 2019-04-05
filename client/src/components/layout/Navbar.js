@@ -15,6 +15,11 @@ class Navbar extends Component {
 
     const authorizedLinks = (
       <ul>
+        <li>
+          <Link className="nav-link" to="/customers" style={{ float: "left" }}>
+            Customers
+          </Link>
+        </li>
         <li className="nav-link">
           <span>logged as {user.name} - </span>
           {/* eslint-disable-next-line */}

@@ -12,6 +12,7 @@ import Landing from "./components/layout/Landing.jsx";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
+import Customers from "./components/customers/Customers";
 
 import "./App.css";
 
@@ -39,6 +40,7 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/customers" component={Customers} />
             </div>
             <Footer />
           </div>
