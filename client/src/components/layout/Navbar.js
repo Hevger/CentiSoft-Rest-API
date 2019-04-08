@@ -21,7 +21,19 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-link">
-          <span>logged as {user.name} - </span>
+          <span>
+            logged in as{" "}
+            <span
+              style={{
+                color: "yellow",
+                fontSize: "16px",
+                fontWeight: "bold"
+              }}
+            >
+              {user.name}
+            </span>{" "}
+            -{" "}
+          </span>
           {/* eslint-disable-next-line */}
           <a href="#" onClick={this.onLogoutClick.bind(this)}>
             Log out

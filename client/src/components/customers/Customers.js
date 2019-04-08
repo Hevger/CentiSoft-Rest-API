@@ -2,22 +2,25 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCustomers } from "../../actions/customersActions";
+import CreateModal from "./CreateModal";
 
 class Customers extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.state = { openModel: false };
-  }
+  //   this.state = { openModel: false };
+  // }
 
-  state = {
-    openModel: false
-  };
+  // state = {
+  //   openModel: false
+  // };
 
   toggleModal = () => {
-    this.setState({
-      openModel: !this.state.openModel
-    });
+    // this.props({
+    //   openModel: !this.props.customers.openModel
+    // });
+    this.props.customers.openModel = !this.props.customers.openModel;
+    console.log(this.props.customers.openModel);
   };
 
   componentDidMount() {
@@ -46,17 +49,19 @@ class Customers extends Component {
       content = <h4>Loading...</h4>;
     } else {
       content = (
-        <div class="table-responsive">
+        <div className="table-responsive">
           <table className="table table-hover ">
             <thead>
-              <th scope="col">Name</th>
-              <th scope="col">Address</th>
-              <th scope="col">Address 2</th>
-              <th scope="col">ZIP</th>
-              <th scope="col">City</th>
-              <th scope="col">Country</th>
-              <th scope="col">Phone</th>
-              <th scope="col">E-mail</th>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Address 2</th>
+                <th scope="col">ZIP</th>
+                <th scope="col">City</th>
+                <th scope="col">Country</th>
+                <th scope="col">Phone</th>
+                <th scope="col">E-mail</th>
+              </tr>
             </thead>
             <tbody>{customers.map(this.populateTable)}</tbody>
           </table>
@@ -65,14 +70,33 @@ class Customers extends Component {
     }
     return (
       <div>
-        {" "}
+        {/* {" "}
         <button
           type="button"
           onClick={this.toggleModal}
-          class="btn btn-primary"
+          className="btn btn-primary"
         >
           Create Customer
-        </button>{" "}
+        </button>{" "} */}
+        <CreateModal show={true} />
+        <div className="text-center">
+          {/* eslint-disable-next-line */}
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            style={{
+              backgroundColor: "orange",
+              color: "black",
+              fontSize: "18px",
+              float: "left",
+              margin: "6px 0"
+            }}
+          >
+            Create Customer
+          </button>
+        </div>
         {content}
       </div>
     );
@@ -82,12 +106,14 @@ class Customers extends Component {
 Customers.propTypes = {
   getCustomers: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  customers: PropTypes.object.isRequired
+  customers: PropTypes.object.isRequired,
+  openModel: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   customers: state.customers,
-  auth: state.auth
+  auth: state.auth,
+  openModel: state.customers.openModel
 });
 
 export default connect(

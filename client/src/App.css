@@ -239,3 +239,7 @@ footer {
 #phone {
   margin-bottom: 10px;
 }
+
+.modal-header {
+  direction: ltr;
+}
